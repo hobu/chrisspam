@@ -28,7 +28,7 @@ functions:
 
   spam:
     handler:
-      'handlers.spam'
+      'handler.spam'
     description:
       'Sends Chris Irwin email every hour'
     runtime:
