@@ -5,7 +5,16 @@ from botocore.exceptions import ClientError
 client = boto3.client('s3') # example client, could be any
 REGION = client.meta.region_name
 
-def notify(event, context):
+import logging
+
+# set up logger for CloudWatch
+logger = logging.getLogger(__file__)
+logger.setLevel(logging.DEBUG)
+
+
+def spam(event, context):
+
+    arn = context.invoked_function_arn
 
     aws_lambda = boto3.client('lambda')
     tags = aws_lambda.list_tags(Resource = arn)
@@ -38,7 +47,7 @@ def notify(event, context):
 
     # Create a new SES resource and specify a region.
     client = boto3.client('ses',region_name='us-east-1')
-    logger.debug(f'Sending email to {addresses} {type(addresses)}')
+    logger.debug(f'Sending email to {address} ')
 
     # Try to send the email.
     try:

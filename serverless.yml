@@ -13,6 +13,7 @@ provider:
       Action:
         - "ses:SendEmail"
         - "ses:SendRawEmail"
+        - "lambda:ListTags"
 
       Resource: "*"
 
