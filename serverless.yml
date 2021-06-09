@@ -1,0 +1,43 @@
+service:  ${opt:service, 'chrisspam'}
+
+provider:
+  name: aws
+  stage: ${opt:stage, 'dev'}
+  stackName: '${self:service}'
+  runtime: 'python3.8'
+  region: ${opt:region, 'us-west-2'}
+  tags:
+    name: '${self:service}'
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - "ses:SendEmail"
+        - "ses:SendRawEmail"
+
+      Resource: "*"
+
+plugins:
+  - serverless-python-requirements
+
+custom:
+
+  pythonRequirements:
+    dockerizePip: true
+
+functions:
+
+  spam:
+    handler:
+      'handlers.spam'
+    description:
+      'Sends Chris Irwin email every hour'
+    runtime:
+      'python3.8'
+    tags:
+        Name: '${self:service}:lambda.${self:provider.stage}.spam'
+        who: 'Christopher.K.Irwin@erdc.dren.mil'
+    maximumRetryAttempts: 0
+    events:
+      - schedule: rate(1 hour)
+
+
