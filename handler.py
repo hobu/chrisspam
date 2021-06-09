@@ -14,12 +14,11 @@ def notify(event, context):
     SUBJECT = f"""Chris' hourly lambda spam """
 
     SENDER = f"Serverless example code <spam@rsgiscx.net>"
-    SES_REGION = event['info']['sesregion']
 
 
     # The email body for recipients with non-HTML email clients.
     BODY_TEXT = (f"Chris' Hourly Serverless Cron Spam\r\n"
-                 f""
+                 f"This GitHub project at https://github.com/hobu/chrisspam demonstrates a https://www.serverless.com Serverless configuration that creates a Lambda function that fires and email to Chris Irwin every hour until he figures out how to shut it off."
                 )
 
     # The HTML body of the email.
@@ -27,9 +26,8 @@ def notify(event, context):
     <head></head>
     <body>
       <h1>Chris' Hourly Serverless Cron Spam</h1>
-      <pre>{prefix}</pre>
       <p>
-          <a href="https://s3.console.aws.amazon.com/s3/buckets/{bucket}?region={REGION}&prefix={collect}/&showversions=false">Console View</a>
+          This <a href="https://github.com/hobu/chrisspam">GitHub project</a> demonstrates a <a href="https://www.serverless.com/">Serverless</a> configuration that creates a Lambda function that fires and email to Chris Irwin every hour until he figures out how to shut it off.
       </p>
     </body>
     </html>
@@ -47,7 +45,7 @@ def notify(event, context):
         #Provide the contents of the email.
         response = client.send_email(
             Destination={
-                'ToAddresses': addresses,
+                'ToAddresses': [address],
             },
             Message={
                 'Body': {
